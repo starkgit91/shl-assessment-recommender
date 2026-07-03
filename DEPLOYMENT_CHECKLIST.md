@@ -58,9 +58,11 @@ python3 demo.py | head -50
 ### Option 2: Railway (5 min)
 1. Create Railway.app account
 2. Create Project from GitHub
-3. Set Environment: GROQ_API_KEY
-4. Deploy → Get public URL
-5. Test: curl https://your-url.railway.app/health
+3. Open your service → Variables tab → New Variable
+4. Add `GROQ_API_KEY=your_key` (optional; fallback works without it)
+5. If you override the start command, use: `sh -c 'uvicorn main:app --host 0.0.0.0 --port ${PORT:-8000}'`
+6. Deploy → Get public URL
+7. Test: curl https://your-url.railway.app/health
 
 ### Option 3: Docker Local + Cloud
 1. Build: docker build -t shl-recommender .
@@ -140,6 +142,7 @@ Fill in:
 **API not responding after deployment?**
 - Check platform logs for errors
 - Verify environment variables set correctly
+- On Railway, do not use `--port $PORT` in a Docker/Image start command without `sh -c`; otherwise `$PORT` is passed literally to uvicorn
 - Try local test first: python3 -c "from main import app; print('OK')"
 
 **Timeouts?**

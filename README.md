@@ -84,7 +84,7 @@ The API will be available at http://localhost:8000
 2. Create new Web Service on Render
 3. Select GitHub repository
 4. Set build command: `pip install -r requirements.txt`
-5. Set start command: `uvicorn main:app --host 0.0.0.0 --port $PORT`
+5. Set start command: `sh -c 'uvicorn main:app --host 0.0.0.0 --port ${PORT:-8000}'`
 6. Add environment variable: `GROQ_API_KEY=your_key`
 7. Deploy
 
@@ -93,8 +93,10 @@ The API will be available at http://localhost:8000
 1. Push repository to GitHub
 2. Create new Railway project
 3. Connect GitHub repository
-4. Add environment variable: `GROQ_API_KEY=your_key`
-5. Railway auto-detects Python and deploys
+4. Open your service → Variables tab → New Variable
+5. Add environment variable: `GROQ_API_KEY=your_key` (optional; fallback works without it)
+6. If you set a custom start command, use: `sh -c 'uvicorn main:app --host 0.0.0.0 --port ${PORT:-8000}'`
+7. Deploy
 
 ### Option 3: Docker
 

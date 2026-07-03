@@ -18,7 +18,7 @@ with open(CATALOG_PATH, "r") as f:
     CATALOG = json.load(f)
 
 # Groq API setup (free tier LLM provider)
-GROQ_API_KEY = os.getenv("GROQ_API_KEY", "gsk_test_key")
+GROQ_API_KEY = os.getenv("GROQ_API_KEY", "").strip()
 GROQ_API_URL = "https://api.groq.com/openai/v1/chat/completions"
 
 app = FastAPI(title="SHL Assessment Recommender", version="1.0.0")
@@ -72,6 +72,10 @@ URL: {assessment['url']}
 
 def get_llm_response(messages: list[Message], system_prompt: str) -> str:
     """Call Groq LLM API (or fallback to local logic)."""
+    if not GROQ_API_KEY:
+        logger.info("GROQ_API_KEY not set; using fallback logic")
+        return fallback_response(messages)
+
     try:
         formatted_messages = [
             {"role": msg.role, "content": msg.content} for msg in messages
