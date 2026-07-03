@@ -3,6 +3,8 @@ import json
 import logging
 from typing import Optional
 from fastapi import FastAPI, HTTPException
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import HTMLResponse
 from pydantic import BaseModel, Field
 from fastapi.middleware.cors import CORSMiddleware
 import httpx
@@ -271,25 +273,440 @@ def get_recommendations(
     return unique_recs[:10], len(unique_recs) > 0 and conversation_turn >= 4
 
 
-@app.get("/")
+@app.get("/", response_class=HTMLResponse)
 async def root():
-    """Root endpoint — welcome message and API overview."""
-    return {
-        "message": "Welcome to the SHL Assessment Recommender API",
-        "title": app.title,
-        "version": app.version,
-        "endpoints": {
-            "/": "GET — This overview",
-            "/health": "GET — Service health check",
-            "/chat": "POST — Conversational assessment recommender",
-            "/docs": "GET — Interactive Swagger UI documentation",
-        },
-        "usage": (
-            "Send a POST request to /chat with a JSON body containing a "
-            "'messages' array of {role, content} objects to start a "
-            "conversation and receive tailored SHL assessment recommendations."
-        ),
-    }
+    """Serve the landing page and chat interface."""
+    return """
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>SHL Assessment Recommender</title>
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+            
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                min-height: 100vh;
+                display: flex;
+                flex-direction: column;
+            }
+            
+            header {
+                background: rgba(0, 0, 0, 0.1);
+                padding: 20px;
+                text-align: center;
+                color: white;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            }
+            
+            header h1 {
+                font-size: 2.5em;
+                margin-bottom: 10px;
+            }
+            
+            header p {
+                font-size: 1.1em;
+                opacity: 0.9;
+            }
+            
+            .container {
+                flex: 1;
+                display: flex;
+                max-width: 1200px;
+                margin: 0 auto;
+                width: 100%;
+                gap: 20px;
+                padding: 20px;
+            }
+            
+            .landing {
+                flex: 1;
+                background: white;
+                border-radius: 12px;
+                padding: 40px;
+                box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+                overflow-y: auto;
+            }
+            
+            .landing h2 {
+                color: #667eea;
+                margin-bottom: 20px;
+                font-size: 1.8em;
+            }
+            
+            .landing p {
+                color: #555;
+                line-height: 1.8;
+                margin-bottom: 15px;
+            }
+            
+            .features {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 20px;
+                margin: 30px 0;
+            }
+            
+            .feature {
+                background: #f8f9fa;
+                padding: 20px;
+                border-radius: 8px;
+                border-left: 4px solid #667eea;
+            }
+            
+            .feature h3 {
+                color: #667eea;
+                margin-bottom: 10px;
+            }
+            
+            .feature p {
+                font-size: 0.95em;
+                color: #666;
+            }
+            
+            .chat-container {
+                flex: 1;
+                background: white;
+                border-radius: 12px;
+                display: flex;
+                flex-direction: column;
+                box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+                overflow: hidden;
+            }
+            
+            .chat-header {
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                color: white;
+                padding: 20px;
+                text-align: center;
+            }
+            
+            .chat-header h3 {
+                font-size: 1.3em;
+            }
+            
+            .messages {
+                flex: 1;
+                overflow-y: auto;
+                padding: 20px;
+                background: #f8f9fa;
+            }
+            
+            .message {
+                margin-bottom: 15px;
+                display: flex;
+                animation: slideIn 0.3s ease-out;
+            }
+            
+            @keyframes slideIn {
+                from {
+                    opacity: 0;
+                    transform: translateY(10px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+            
+            .message.user {
+                justify-content: flex-end;
+            }
+            
+            .message.assistant {
+                justify-content: flex-start;
+            }
+            
+            .message-content {
+                max-width: 70%;
+                padding: 12px 16px;
+                border-radius: 12px;
+                word-wrap: break-word;
+            }
+            
+            .message.user .message-content {
+                background: #667eea;
+                color: white;
+                border-bottom-right-radius: 4px;
+            }
+            
+            .message.assistant .message-content {
+                background: white;
+                color: #333;
+                border: 1px solid #ddd;
+                border-bottom-left-radius: 4px;
+            }
+            
+            .recommendations {
+                margin-top: 10px;
+                padding: 10px;
+                background: #f0f4ff;
+                border-radius: 8px;
+                font-size: 0.9em;
+            }
+            
+            .recommendation-item {
+                padding: 8px;
+                margin: 5px 0;
+                background: white;
+                border-left: 3px solid #667eea;
+                border-radius: 4px;
+            }
+            
+            .recommendation-item strong {
+                color: #667eea;
+            }
+            
+            .input-area {
+                padding: 20px;
+                border-top: 1px solid #ddd;
+                display: flex;
+                gap: 10px;
+            }
+            
+            .input-area input {
+                flex: 1;
+                padding: 12px;
+                border: 1px solid #ddd;
+                border-radius: 8px;
+                font-size: 1em;
+                font-family: inherit;
+            }
+            
+            .input-area input:focus {
+                outline: none;
+                border-color: #667eea;
+                box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            }
+            
+            .input-area button {
+                padding: 12px 24px;
+                background: #667eea;
+                color: white;
+                border: none;
+                border-radius: 8px;
+                cursor: pointer;
+                font-weight: 600;
+                transition: background 0.3s;
+            }
+            
+            .input-area button:hover {
+                background: #764ba2;
+            }
+            
+            .input-area button:disabled {
+                background: #ccc;
+                cursor: not-allowed;
+            }
+            
+            .loading {
+                display: inline-block;
+                width: 8px;
+                height: 8px;
+                background: #667eea;
+                border-radius: 50%;
+                animation: pulse 1.5s infinite;
+                margin-right: 5px;
+            }
+            
+            @keyframes pulse {
+                0%, 100% { opacity: 0.3; }
+                50% { opacity: 1; }
+            }
+            
+            @media (max-width: 768px) {
+                .container {
+                    flex-direction: column;
+                }
+                
+                .features {
+                    grid-template-columns: 1fr;
+                }
+                
+                header h1 {
+                    font-size: 1.8em;
+                }
+                
+                .message-content {
+                    max-width: 90%;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <header>
+            <h1>🎯 SHL Assessment Recommender</h1>
+            <p>Find the perfect assessment for your hiring needs</p>
+        </header>
+        
+        <div class="container">
+            <div class="landing">
+                <h2>Welcome to SHL Assessment Recommender</h2>
+                <p>
+                    Our AI-powered assistant helps you discover the right SHL assessments for your hiring process. 
+                    Whether you're looking to evaluate technical skills, leadership potential, or personality traits, 
+                    we've got you covered.
+                </p>
+                
+                <h3 style="color: #667eea; margin-top: 30px; margin-bottom: 15px;">How It Works</h3>
+                <p>
+                    Simply describe the role you're hiring for in the chat on the right. Our AI will ask clarifying 
+                    questions to understand your needs and recommend the most suitable SHL assessments from our 
+                    comprehensive catalog.
+                </p>
+                
+                <div class="features">
+                    <div class="feature">
+                        <h3>💼 Role-Based Matching</h3>
+                        <p>Get recommendations tailored to specific job titles and responsibilities.</p>
+                    </div>
+                    <div class="feature">
+                        <h3>🧠 Skill Assessment</h3>
+                        <p>Evaluate technical, cognitive, and soft skills with precision.</p>
+                    </div>
+                    <div class="feature">
+                        <h3>🎓 Comprehensive Catalog</h3>
+                        <p>Access our full range of SHL assessments across all categories.</p>
+                    </div>
+                    <div class="feature">
+                        <h3>⚡ Quick Insights</h3>
+                        <p>Get instant recommendations based on your hiring requirements.</p>
+                    </div>
+                </div>
+                
+                <h3 style="color: #667eea; margin-top: 30px; margin-bottom: 15px;">Example Queries</h3>
+                <ul style="color: #666; line-height: 2;">
+                    <li>✓ "I'm hiring a Java developer"</li>
+                    <li>✓ "We need a sales manager"</li>
+                    <li>✓ "Looking for customer service representatives"</li>
+                    <li>✓ "Senior leadership position"</li>
+                </ul>
+            </div>
+            
+            <div class="chat-container">
+                <div class="chat-header">
+                    <h3>💬 Chat with AI Assistant</h3>
+                </div>
+                
+                <div class="messages" id="messages"></div>
+                
+                <div class="input-area">
+                    <input 
+                        type="text" 
+                        id="messageInput" 
+                        placeholder="Describe the role you're hiring for..."
+                        autocomplete="off"
+                    >
+                    <button id="sendBtn" onclick="sendMessage()">Send</button>
+                </div>
+            </div>
+        </div>
+        
+        <script>
+            const messagesDiv = document.getElementById('messages');
+            const messageInput = document.getElementById('messageInput');
+            const sendBtn = document.getElementById('sendBtn');
+            let conversationHistory = [];
+            
+            // Add initial greeting
+            function addInitialMessage() {
+                const greeting = "Hello! I'm your SHL Assessment Recommender. I'll help you find the perfect assessment for your hiring needs. What role are you looking to hire for?";
+                addMessage(greeting, 'assistant');
+            }
+            
+            function addMessage(content, role, recommendations = []) {
+                const messageEl = document.createElement('div');
+                messageEl.className = `message ${role}`;
+                
+                let html = `<div class="message-content">${escapeHtml(content)}`;
+                
+                if (recommendations && recommendations.length > 0) {
+                    html += '<div class="recommendations"><strong>Recommended Assessments:</strong>';
+                    recommendations.forEach(rec => {
+                        html += `<div class="recommendation-item"><strong>${escapeHtml(rec.name)}</strong> (${escapeHtml(rec.test_type)}) - <a href="${escapeHtml(rec.url)}" target="_blank">View</a></div>`;
+                    });
+                    html += '</div>';
+                }
+                
+                html += '</div>';
+                messageEl.innerHTML = html;
+                messagesDiv.appendChild(messageEl);
+                messagesDiv.scrollTop = messagesDiv.scrollHeight;
+            }
+            
+            function escapeHtml(text) {
+                const div = document.createElement('div');
+                div.textContent = text;
+                return div.innerHTML;
+            }
+            
+            async function sendMessage() {
+                const message = messageInput.value.trim();
+                if (!message) return;
+                
+                // Add user message
+                addMessage(message, 'user');
+                conversationHistory.push({ role: 'user', content: message });
+                
+                messageInput.value = '';
+                sendBtn.disabled = true;
+                
+                // Add loading indicator
+                const loadingEl = document.createElement('div');
+                loadingEl.className = 'message assistant';
+                loadingEl.innerHTML = '<div class="message-content"><span class="loading"></span>Thinking...</div>';
+                messagesDiv.appendChild(loadingEl);
+                messagesDiv.scrollTop = messagesDiv.scrollHeight;
+                
+                try {
+                    const response = await fetch('/chat', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ messages: conversationHistory })
+                    });
+                    
+                    if (!response.ok) throw new Error('Failed to get response');
+                    
+                    const data = await response.json();
+                    
+                    // Remove loading indicator
+                    loadingEl.remove();
+                    
+                    // Add assistant message
+                    addMessage(data.reply, 'assistant', data.recommendations);
+                    conversationHistory.push({ role: 'assistant', content: data.reply });
+                    
+                } catch (error) {
+                    loadingEl.remove();
+                    addMessage('Sorry, I encountered an error. Please try again.', 'assistant');
+                } finally {
+                    sendBtn.disabled = false;
+                    messageInput.focus();
+                }
+            }
+            
+            // Allow Enter key to send
+            messageInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    sendMessage();
+                }
+            });
+            
+            // Initialize
+            addInitialMessage();
+            messageInput.focus();
+        </script>
+    </body>
+    </html>
+    """
 
 
 @app.get("/health")
@@ -355,3 +772,4 @@ if __name__ == "__main__":
     import uvicorn
 
     uvicorn.run(app, host="0.0.0.0", port=8000)
+
