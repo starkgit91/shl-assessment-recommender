@@ -271,6 +271,27 @@ def get_recommendations(
     return unique_recs[:10], len(unique_recs) > 0 and conversation_turn >= 4
 
 
+@app.get("/")
+async def root():
+    """Root endpoint — welcome message and API overview."""
+    return {
+        "message": "Welcome to the SHL Assessment Recommender API",
+        "title": app.title,
+        "version": app.version,
+        "endpoints": {
+            "/": "GET — This overview",
+            "/health": "GET — Service health check",
+            "/chat": "POST — Conversational assessment recommender",
+            "/docs": "GET — Interactive Swagger UI documentation",
+        },
+        "usage": (
+            "Send a POST request to /chat with a JSON body containing a "
+            "'messages' array of {role, content} objects to start a "
+            "conversation and receive tailored SHL assessment recommendations."
+        ),
+    }
+
+
 @app.get("/health")
 async def health_check():
     """Health check endpoint."""
