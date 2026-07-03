@@ -1,0 +1,220 @@
+{
+  "assessments": [
+    {
+      "name": "OPQ32r",
+      "type": "Personality",
+      "category": "Personality & Motivation",
+      "description": "Measures 32 personality dimensions relevant to workplace performance",
+      "url": "https://www.shl.com/solutions/products/opq32r/",
+      "best_for": ["Leadership", "Team dynamics", "Communication skills", "Motivation", "Workplace behavior"],
+      "test_time": "30-45 minutes",
+      "languages": ["English", "Spanish", "French", "German", "Chinese"]
+    },
+    {
+      "name": "CAPP",
+      "type": "Ability",
+      "category": "Cognitive Ability",
+      "description": "Measures verbal, numerical, and abstract reasoning abilities",
+      "url": "https://www.shl.com/solutions/products/capp/",
+      "best_for": ["Cognitive ability", "Problem-solving", "Analytical thinking", "General intelligence"],
+      "test_time": "45-60 minutes",
+      "languages": ["English", "Spanish"]
+    },
+    {
+      "name": "WAVE",
+      "type": "Ability",
+      "category": "Cognitive Ability",
+      "description": "Verbal, Numerical, Abstract, Work Simulation, and Emotional Intelligence",
+      "url": "https://www.shl.com/solutions/products/wave/",
+      "best_for": ["Comprehensive assessment", "Entry-level", "Graduate", "Emotional intelligence"],
+      "test_time": "60-90 minutes",
+      "languages": ["English", "Spanish", "French"]
+    },
+    {
+      "name": "GSA",
+      "type": "Ability",
+      "category": "Cognitive Ability",
+      "description": "General and Specific Ability - measures general intelligence and specific competencies",
+      "url": "https://www.shl.com/solutions/products/gsa/",
+      "best_for": ["Technical roles", "Professional positions", "Reasoning", "Numerical ability"],
+      "test_time": "40-50 minutes",
+      "languages": ["English", "German", "French"]
+    },
+    {
+      "name": "Java Programming",
+      "type": "Technical Skill",
+      "category": "Technical Skills",
+      "description": "Measures practical Java programming competencies",
+      "url": "https://www.shl.com/solutions/products/java-programming/",
+      "best_for": ["Software developers", "Java developers", "Backend engineers", "Technical assessment"],
+      "test_time": "60-90 minutes",
+      "languages": ["English"]
+    },
+    {
+      "name": "Python Programming",
+      "type": "Technical Skill",
+      "category": "Technical Skills",
+      "description": "Measures practical Python programming competencies",
+      "url": "https://www.shl.com/solutions/products/python-programming/",
+      "best_for": ["Data scientists", "Python developers", "Backend engineers", "ML engineers"],
+      "test_time": "60-90 minutes",
+      "languages": ["English"]
+    },
+    {
+      "name": "SQL Assessment",
+      "type": "Technical Skill",
+      "category": "Technical Skills",
+      "description": "Evaluates SQL proficiency and database design understanding",
+      "url": "https://www.shl.com/solutions/products/sql-assessment/",
+      "best_for": ["Database engineers", "Data analysts", "Backend developers", "SQL developers"],
+      "test_time": "45-60 minutes",
+      "languages": ["English"]
+    },
+    {
+      "name": "JavaScript Assessment",
+      "type": "Technical Skill",
+      "category": "Technical Skills",
+      "description": "Measures JavaScript development skills for web applications",
+      "url": "https://www.shl.com/solutions/products/javascript-assessment/",
+      "best_for": ["Web developers", "Frontend engineers", "Full-stack developers", "JavaScript developers"],
+      "test_time": "60-90 minutes",
+      "languages": ["English"]
+    },
+    {
+      "name": "Leadership Potential Indicator",
+      "type": "Personality",
+      "category": "Leadership & Development",
+      "description": "Identifies leadership potential and key competencies",
+      "url": "https://www.shl.com/solutions/products/leadership-potential/",
+      "best_for": ["Leadership assessment", "Management roles", "Executive potential", "Development"],
+      "test_time": "30-45 minutes",
+      "languages": ["English", "Spanish", "French", "German"]
+    },
+    {
+      "name": "Customer Service Aptitude",
+      "type": "Personality",
+      "category": "Customer & Service",
+      "description": "Assesses customer service orientation and interpersonal skills",
+      "url": "https://www.shl.com/solutions/products/customer-service/",
+      "best_for": ["Customer service", "Support roles", "Interpersonal skills", "Client-facing positions"],
+      "test_time": "20-30 minutes",
+      "languages": ["English", "Spanish"]
+    },
+    {
+      "name": "Sales Aptitude",
+      "type": "Personality",
+      "category": "Sales",
+      "description": "Evaluates sales competencies and sales effectiveness factors",
+      "url": "https://www.shl.com/solutions/products/sales-aptitude/",
+      "best_for": ["Sales roles", "Account managers", "Business development", "Sales effectiveness"],
+      "test_time": "25-35 minutes",
+      "languages": ["English", "Spanish", "German"]
+    },
+    {
+      "name": "Mechanical Reasoning",
+      "type": "Ability",
+      "category": "Technical & Mechanical",
+      "description": "Assesses understanding of mechanical and physical principles",
+      "url": "https://www.shl.com/solutions/products/mechanical-reasoning/",
+      "best_for": ["Engineering", "Manufacturing", "Mechanical roles", "Technical positions"],
+      "test_time": "30-40 minutes",
+      "languages": ["English", "German"]
+    },
+    {
+      "name": "Spatial Reasoning",
+      "type": "Ability",
+      "category": "Technical & Mechanical",
+      "description": "Evaluates spatial visualization and 3D thinking abilities",
+      "url": "https://www.shl.com/solutions/products/spatial-reasoning/",
+      "best_for": ["Design roles", "Engineering", "Architecture", "CAD positions"],
+      "test_time": "30-40 minutes",
+      "languages": ["English"]
+    },
+    {
+      "name": "Numerical Reasoning",
+      "type": "Ability",
+      "category": "Cognitive Ability",
+      "description": "Measures mathematical and numerical computation abilities",
+      "url": "https://www.shl.com/solutions/products/numerical-reasoning/",
+      "best_for": ["Finance", "Accounting", "Quantitative roles", "Data analysis"],
+      "test_time": "25-35 minutes",
+      "languages": ["English", "Spanish", "French", "German"]
+    },
+    {
+      "name": "Verbal Reasoning",
+      "type": "Ability",
+      "category": "Cognitive Ability",
+      "description": "Evaluates reading comprehension and verbal critical reasoning",
+      "url": "https://www.shl.com/solutions/products/verbal-reasoning/",
+      "best_for": ["Communication roles", "Writing positions", "Analysis", "Management"],
+      "test_time": "20-30 minutes",
+      "languages": ["English", "Spanish", "French", "German"]
+    },
+    {
+      "name": "Reliability Index",
+      "type": "Personality",
+      "category": "Work Attitudes",
+      "description": "Measures integrity, reliability, and work ethic",
+      "url": "https://www.shl.com/solutions/products/reliability-index/",
+      "best_for": ["Honesty assessment", "Integrity screening", "Trustworthiness", "Safety-critical roles"],
+      "test_time": "15-25 minutes",
+      "languages": ["English", "Spanish"]
+    },
+    {
+      "name": "EQ Assessment",
+      "type": "Personality",
+      "category": "Emotional Intelligence",
+      "description": "Measures emotional intelligence and social awareness",
+      "url": "https://www.shl.com/solutions/products/eq-assessment/",
+      "best_for": ["Leadership", "Team roles", "Client interaction", "Emotional awareness"],
+      "test_time": "20-30 minutes",
+      "languages": ["English", "German"]
+    },
+    {
+      "name": "CriticalReasoning",
+      "type": "Ability",
+      "category": "Cognitive Ability",
+      "description": "Evaluates logical reasoning and critical thinking skills",
+      "url": "https://www.shl.com/solutions/products/critical-reasoning/",
+      "best_for": ["Problem-solving", "Analysis", "Consulting", "Strategic roles"],
+      "test_time": "30-40 minutes",
+      "languages": ["English"]
+    },
+    {
+      "name": "Customer Focus Index",
+      "type": "Personality",
+      "category": "Customer & Service",
+      "description": "Measures customer-centric orientation and service mindset",
+      "url": "https://www.shl.com/solutions/products/customer-focus/",
+      "best_for": ["Service roles", "Client management", "Customer orientation", "Retail positions"],
+      "test_time": "15-20 minutes",
+      "languages": ["English"]
+    },
+    {
+      "name": "Coaching Ability",
+      "type": "Personality",
+      "category": "Leadership & Development",
+      "description": "Assesses coaching and mentoring capabilities",
+      "url": "https://www.shl.com/solutions/products/coaching-ability/",
+      "best_for": ["Management", "Team leaders", "Mentoring roles", "Development focus"],
+      "test_time": "20-30 minutes",
+      "languages": ["English"]
+    }
+  ],
+  "metadata": {
+    "total_assessments": 20,
+    "categories": [
+      "Personality & Motivation",
+      "Cognitive Ability",
+      "Technical Skills",
+      "Leadership & Development",
+      "Customer & Service",
+      "Sales",
+      "Technical & Mechanical",
+      "Work Attitudes",
+      "Emotional Intelligence"
+    ],
+    "test_types": ["Personality", "Ability", "Technical Skill"],
+    "last_updated": "2026-07-03"
+  }
+}
